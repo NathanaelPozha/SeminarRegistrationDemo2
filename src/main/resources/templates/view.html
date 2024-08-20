@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>Registration List</title>	
 	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
-	<link rel="stylesheet" href="css/viewstyle.css">
+	<link rel="stylesheet" th:src="@{/css/viewstyle.css}">
 	<script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-	<script th:src="@{js/main.js}"></script>	
+	<script th:src="@{/js/main.js}"></script>	
 </head>
 <body>
 	<div class="well">
@@ -32,7 +32,7 @@
 	                            <td th:text="${r.nama}"></td>
 	                            <td th:text="${r.nim}"></td>
 	                            <td>
-									<a class="eBtn"><i class="icon-pencil"></i></a>
+									<a th:href="@{findOne/(id=${r.id})}" class="eBtn"><i class="icon-pencil"></i></a>
 									<a data-toggle="collapse" th:attr="data-target='#accordion_'+${r.id}"><i class="icon-chevron-down"></i></a>
 	                            </td>
 	                        </tr>
@@ -115,6 +115,19 @@
 					  </div>
 				</div>
 			</form>
+		</div>		
+		<div class="pagination">
+		    <ul>
+		        <li class="previous" th:classappend="${currentPage == 0} ? 'disabled'">
+		            <a href="#" th:href="@{/view/{currentPage}/{pageSize}(currentPage=${currentPage-1}, pageSize=${pageSize})}">Previous</a>
+		        </li>
+		        <li th:each="i : ${#numbers.sequence(0, totalPages-1)}" th:classappend="${i == currentPage} ? 'active'">
+		            <a th:href="@{/view/{i}/{pageSize}(i=${i}, pageSize=${pageSize})}" th:text="${i + 1}">1</a>
+		        </li>
+		        <li class="next" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+		            <a href="#" th:href="@{/view/{currentPage}/{pageSize}(currentPage=${currentPage+1}, pageSize=${pageSize})}">Next</a>
+		        </li>
+		    </ul>
 		</div>
 	</div>
 </body>
