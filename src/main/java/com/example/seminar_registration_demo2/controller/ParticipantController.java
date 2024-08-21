@@ -12,24 +12,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
-import com.example.seminar_registration_demo2.model.RegistrationData;
-import com.example.seminar_registration_demo2.registrationdatadto.RegistrationDataDTO;
-import com.example.seminar_registration_demo2.service.SeminarRegistrationService;
+import com.example.seminar_registration_demo2.model.ParticipantData;
+import com.example.seminar_registration_demo2.registrationdatadto.ParticipantDataDTO;
+import com.example.seminar_registration_demo2.service.ParticipantDataService;
 
 @Controller
-public class SeminarRegistrationController {
+public class ParticipantController {
 
 	@Autowired
-	private SeminarRegistrationService seminarRegistrationService;
+	private ParticipantDataService participantDataService;
 	
 	@GetMapping("/view")
-	public String viewRegistrationData(Model model) {
-		return "redirect:/view/0/10";
+	public String viewParticipantData(Model model) {
+		return "redirect:/viewParticipant/0/10";
 	}
 	
 	@PostMapping("/save")
-	public String updateRegistrationData(@ModelAttribute("registrationdata") RegistrationData r, @RequestParam("id") long id) {
-		seminarRegistrationService.updateRegistrationData(
+	public String updateRegistrationData(@ModelAttribute("participantdata") ParticipantData r, @RequestParam("id") long id) {
+		participantDataService.updateParticipantData(
 				id,
 				r.getNama(),
 				r.getNim(),
@@ -43,30 +43,30 @@ public class SeminarRegistrationController {
 		return "redirect:/view";
 	}	
 	
-	@GetMapping("/view/findOne")
+	@GetMapping("/viewParticipant/findParticipant")
 	@ResponseBody
-	public RegistrationData findOne(@RequestParam("id") long id){
-		return seminarRegistrationService.findOneById(id);
+	public ParticipantData findOneParticipant(@RequestParam("id") long id){
+		return participantDataService.findOneById(id);
 	}
 	
-	@GetMapping("/view/{offset}/{pageSize}")
+	@GetMapping("/viewParticipant/{offset}/{pageSize}")
 	public String viewPageWithPagination(@PathVariable int offset, @PathVariable int pageSize, Model model) {
 		
 		if (offset < 0) {
 			offset = 0;
 		}
 		
-		Page<RegistrationDataDTO> dataWithPagination = seminarRegistrationService.findDataWithPagination(offset, pageSize);
+		Page<ParticipantDataDTO> dataWithPagination = participantDataService.findDataWithPagination(offset, pageSize);
 		int totalPages = dataWithPagination.getTotalPages();
 		
 		if (offset >= totalPages) {
 			offset = totalPages;
-			dataWithPagination = seminarRegistrationService.findDataWithPagination(totalPages - 1, pageSize);
+			dataWithPagination = participantDataService.findDataWithPagination(totalPages - 1, pageSize);
 		}
 		
 		model.addAttribute("currentPage", offset);
 		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("registrationdata", dataWithPagination.getContent());
+		model.addAttribute("participantdata", dataWithPagination.getContent());
 		
 		return "view.html";
 	}

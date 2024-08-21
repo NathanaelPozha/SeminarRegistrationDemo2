@@ -26,26 +26,26 @@
 	                        </tr>
 	                    </thead>
 	                    <tbody>
-	                        <th:block th:each="r:${registrationdata}">
+	                        <th:block th:each="p:${participantdata}">
 	                        <tr>
-	                            <td th:text="${r.id}"></td>
-	                            <td th:text="${r.nama}"></td>
-	                            <td th:text="${r.nim}"></td>
+	                            <td th:text="${p.id}"></td>
+	                            <td th:text="${p.nama}"></td>
+	                            <td th:text="${p.nim}"></td>
 	                            <td>
-									<a th:href="@{findOne/(id=${r.id})}" class="eBtn"><i class="icon-pencil"></i></a>
-									<a data-toggle="collapse" th:attr="data-target='#accordion_'+${r.id}"><i class="icon-chevron-down"></i></a>
+									<a th:href="@{findParticipant/(id=${p.id})}" class="eBtn"><i class="icon-pencil"></i></a>
+									<a data-toggle="collapse" th:attr="data-target='#accordion_'+${p.id}"><i class="icon-chevron-down"></i></a>
 	                            </td>
 	                        </tr>
 	                        <tr>
 	                            <td colspan="5" class="hiddenRow">
-	                                <div class="accordion-body collapse" th:id="'accordion_'+${r.id}">
-	                                    <p><strong>Email:</strong> <span th:text="${r.email}"></span></p>
-	                                    <p><strong>Phone Number:</strong> <span th:text="${r.nomorTelepon}"></span></p>
-	                                    <p><strong>Line Id:</strong> <span th:text="${r.idLine}"></span></p>
-	                                    <p><strong>Major:</strong> <span th:text="${r.jurusan}"></span></p>
-	                                    <p><strong>Faculty:</strong> <span th:text="${r.fakultas}"></span></p>
-	                                    <p><strong>Year:</strong> <span th:text="${r.angkatan}"></span></p>
-	                                    <p><strong>Seat Number:</strong> <span th:text="${r.nomorKursi}"></span></p>
+	                                <div class="accordion-body collapse" th:id="'accordion_'+${p.id}">
+	                                    <p><strong>Email:</strong> <span th:text="${p.email}"></span></p>
+	                                    <p><strong>Phone Number:</strong> <span th:text="${p.nomorTelepon}"></span></p>
+	                                    <p><strong>Line Id:</strong> <span th:text="${p.idLine}"></span></p>
+	                                    <p><strong>Major:</strong> <span th:text="${p.jurusan}"></span></p>
+	                                    <p><strong>Faculty:</strong> <span th:text="${p.fakultas}"></span></p>
+	                                    <p><strong>Year:</strong> <span th:text="${p.angkatan}"></span></p>
+	                                    <p><strong>Seat Number:</strong> <span th:text="${p.nomorKursi}"></span></p>
 	                                </div>
 	                            </td>
 	                        </tr>
@@ -119,13 +119,13 @@
 		<div class="pagination">
 		    <ul>
 		        <li class="previous" th:classappend="${currentPage == 0} ? 'disabled'">
-		            <a href="#" th:href="@{/view/{currentPage}/{pageSize}(currentPage=${currentPage-1}, pageSize=${pageSize})}">Previous</a>
+		            <a href="#" th:href="@{/viewParticipant/{currentPage}/{pageSize}(currentPage=${currentPage-1}, pageSize=${pageSize})}">Previous</a>
 		        </li>
 		        <li th:each="i : ${#numbers.sequence(0, totalPages-1)}" th:classappend="${i == currentPage} ? 'active'">
-		            <a th:href="@{/view/{i}/{pageSize}(i=${i}, pageSize=${pageSize})}" th:text="${i + 1}">1</a>
+		            <a th:href="@{/viewParticipant/{i}/{pageSize}(i=${i}, pageSize=${pageSize})}" th:text="${i + 1}">1</a>
 		        </li>
 		        <li class="next" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
-		            <a href="#" th:href="@{/view/{currentPage}/{pageSize}(currentPage=${currentPage+1}, pageSize=${pageSize})}">Next</a>
+		            <a href="#" th:href="@{/viewParticipant/{currentPage}/{pageSize}(currentPage=${currentPage+1}, pageSize=${pageSize})}">Next</a>
 		        </li>
 		    </ul>
 		</div>

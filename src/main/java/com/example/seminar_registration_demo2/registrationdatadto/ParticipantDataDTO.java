@@ -1,6 +1,6 @@
 package com.example.seminar_registration_demo2.registrationdatadto;
 
-public record RegistrationDataDTO (
+public record ParticipantDataDTO (
 	long id,
 	String nama,
 	long nim,

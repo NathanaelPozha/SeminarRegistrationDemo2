@@ -5,8 +5,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
 
 @Entity
-@Table(name = "registration_data")
-public class RegistrationData{
+@Table(name = "participant_data")
+public class ParticipantData{
 	
 	@Id
 	private long id;
@@ -21,7 +21,7 @@ public class RegistrationData{
 	private String angkatan;
 	private long nomor_kursi;
 	
-	public RegistrationData() {
+	public ParticipantData() {
 		
 	}
 	

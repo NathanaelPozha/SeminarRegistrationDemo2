@@ -2,14 +2,14 @@ package com.example.seminar_registration_demo2.registrationdatadtomapper;
 
 import org.springframework.stereotype.Component;
 import java.util.function.Function;
-import com.example.seminar_registration_demo2.model.RegistrationData;
-import com.example.seminar_registration_demo2.registrationdatadto.RegistrationDataDTO;
+import com.example.seminar_registration_demo2.model.ParticipantData;
+import com.example.seminar_registration_demo2.registrationdatadto.ParticipantDataDTO;
 
 @Component
-public class RegistrationDataDTOMapper implements Function<RegistrationData, RegistrationDataDTO> {
+public class ParticipantDataDTOMapper implements Function<ParticipantData, ParticipantDataDTO> {
 	@Override
-	public RegistrationDataDTO apply(RegistrationData registrationdata) {
-		return new RegistrationDataDTO(
+	public ParticipantDataDTO apply(ParticipantData registrationdata) {
+		return new ParticipantDataDTO(
 				registrationdata.getId(),
 				registrationdata.getNama(),
 				registrationdata.getNim(),
