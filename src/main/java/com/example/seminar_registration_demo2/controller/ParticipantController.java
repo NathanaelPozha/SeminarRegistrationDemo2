@@ -22,7 +22,7 @@ public class ParticipantController {
 	@Autowired
 	private ParticipantDataService participantDataService;
 	
-	@GetMapping("/view")
+	@GetMapping("/viewParticipant")
 	public String viewParticipantData(Model model) {
 		return "redirect:/viewParticipant/0/10";
 	}
@@ -43,26 +43,17 @@ public class ParticipantController {
 		return "redirect:/view";
 	}	
 	
-	@GetMapping("/viewParticipant/findParticipant")
+	@GetMapping("/findOneParticipant/{id}")
 	@ResponseBody
-	public ParticipantData findOneParticipant(@RequestParam("id") long id){
+	public ParticipantData findOneParticipant(@PathVariable long id){
 		return participantDataService.findOneById(id);
 	}
 	
 	@GetMapping("/viewParticipant/{offset}/{pageSize}")
 	public String viewPageWithPagination(@PathVariable int offset, @PathVariable int pageSize, Model model) {
 		
-		if (offset < 0) {
-			offset = 0;
-		}
-		
 		Page<ParticipantDataDTO> dataWithPagination = participantDataService.findDataWithPagination(offset, pageSize);
 		int totalPages = dataWithPagination.getTotalPages();
-		
-		if (offset >= totalPages) {
-			offset = totalPages;
-			dataWithPagination = participantDataService.findDataWithPagination(totalPages - 1, pageSize);
-		}
 		
 		model.addAttribute("currentPage", offset);
 		model.addAttribute("totalPages", totalPages);
