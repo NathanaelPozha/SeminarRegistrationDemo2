@@ -27,7 +27,7 @@ public class ParticipantController {
 		return "redirect:/viewParticipant/0/10";
 	}
 	
-	@PostMapping("/save")
+	@PostMapping("/updateParticipant")
 	public String updateRegistrationData(@ModelAttribute("participantdata") ParticipantData r, @RequestParam("id") long id) {
 		participantDataService.updateParticipantData(
 				id,
