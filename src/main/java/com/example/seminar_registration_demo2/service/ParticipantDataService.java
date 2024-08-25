@@ -35,8 +35,6 @@ public class ParticipantDataService {
 			String fakultas,
 			String angkatan,
 			long nomor_kursi) {
-		participantDataRepository.findById(id)
-	            .orElseThrow(() -> new ParticipantDataExceptions());
 		
 		participantDataRepository.updateParticipantData(
 	    		 id,

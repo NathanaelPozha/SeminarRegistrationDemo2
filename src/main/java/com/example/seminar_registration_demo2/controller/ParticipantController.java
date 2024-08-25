@@ -40,7 +40,7 @@ public class ParticipantController {
 				r.getFakultas(),
 				r.getAngkatan(),
 				r.getNomorKursi());
-		return "redirect:/view";
+		return "redirect:/viewParticipant";
 	}	
 	
 	@GetMapping("/findOneParticipant/{id}")
