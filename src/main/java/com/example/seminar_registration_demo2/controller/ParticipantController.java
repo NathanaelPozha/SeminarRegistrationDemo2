@@ -14,6 +14,7 @@ import java.util.List;
 
 import com.example.seminar_registration_demo2.model.ParticipantData;
 import com.example.seminar_registration_demo2.registrationdatadto.ParticipantDataDTO;
+import com.example.seminar_registration_demo2.registrationdatadto.ParticipantDataResponse;
 import com.example.seminar_registration_demo2.service.ParticipantDataService;
 
 @Controller
@@ -24,11 +25,6 @@ public class ParticipantController {
 	@Autowired
 	public ParticipantController(ParticipantDataService participantDataService) {
 		this.participantDataService = participantDataService;
-	}
-	
-	@GetMapping("/viewParticipant")
-	public String viewParticipantData(Model model) {
-		return "redirect:/viewParticipant/0/10";
 	}
 	
 	@PostMapping("/updateParticipant")
@@ -56,15 +52,18 @@ public class ParticipantController {
 		return participantDataService.findOneById(id);
 	}
 	
-	@GetMapping("/viewParticipant/{offset}/{pageSize}")
-	public String viewPageWithPagination(@PathVariable int offset, @PathVariable int pageSize, Model model) {
+	@GetMapping("/viewParticipant")
+	public String getParticipantData(
+			@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+			Model model){
 		
-		Page<ParticipantDataDTO> dataWithPagination = participantDataService.findDataWithPagination(offset, pageSize);
-		int totalPages = dataWithPagination.getTotalPages();
+		ParticipantDataResponse content = participantDataService.getAllParticipant(pageNo, pageSize);
 		
-		model.addAttribute("currentPage", offset);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("participantdata", dataWithPagination.getContent());
+		model.addAttribute("participants", content.getParticipantContent());
+		model.addAttribute("pageNo", content.getPageNo());
+		model.addAttribute("pageSize", content.getPageSize());
+		model.addAttribute("totalPage", content.getTotalPages());
 		
 		return "view.html";
 	}

@@ -3,10 +3,12 @@ package com.example.seminar_registration_demo2.service;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import com.example.seminar_registration_demo2.model.ParticipantData;
 import com.example.seminar_registration_demo2.registrationdatadto.ParticipantDataDTO;
+import com.example.seminar_registration_demo2.registrationdatadto.ParticipantDataResponse;
 import com.example.seminar_registration_demo2.registrationdatadtomapper.ParticipantDataDTOMapper;
 import com.example.seminar_registration_demo2.exceptions.ParticipantDataExceptions;
 import com.example.seminar_registration_demo2.repository.ParticipantDataRepository;
@@ -43,23 +45,29 @@ public class ParticipantDataService {
 	    		 );
 	}
 	
-	public Page<ParticipantDataDTO> findDataWithPagination(int offset, int pagesize){
-		Page<ParticipantData> registrationDataPage = participantDataRepository.findAll(PageRequest.of(offset, pagesize));
-		List<ParticipantDataDTO> content = registrationDataPage.stream()
-				.map(participantDataDTOMapper).collect(Collectors.toList());
-		
-		Page<ParticipantDataDTO> participantDataDTOPage = new PageImpl<>(
-	            content,
-	            PageRequest.of(offset, pagesize),
-	            registrationDataPage.getTotalElements()
-	    );
-
-	    return participantDataDTOPage;
-	}
-	
 	public ParticipantDataDTO findOneById(long id){
 		return participantDataRepository.findById(id)
 				.map(participantDataDTOMapper)
 				.orElseThrow(() -> new ParticipantDataExceptions());
+	}
+	
+	public ParticipantDataResponse getAllParticipant(int pageNo, int pageSize){
+		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		Page<ParticipantData> participantsData = participantDataRepository.findAll(pageable);
+		
+		List<ParticipantData> listOfParticipantData = participantsData.getContent();
+		List<ParticipantDataDTO> content = listOfParticipantData.stream()
+	            .map(participantDataDTOMapper)
+	            .collect(Collectors.toList());
+		
+		ParticipantDataResponse participantDataResponse = new ParticipantDataResponse();
+		participantDataResponse.setParticipantContent(content);
+		participantDataResponse.setPageNo(participantsData.getNumber());
+		participantDataResponse.setPageSize(participantsData.getSize());
+		participantDataResponse.setTotalElements(participantsData.getTotalElements());
+		participantDataResponse.setTotalPages(participantsData.getTotalPages());
+		participantDataResponse.setLastPage(participantsData.isLast());
+		
+		return participantDataResponse;
 	}
 }

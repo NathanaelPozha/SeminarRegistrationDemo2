@@ -26,7 +26,7 @@
 	                        </tr>
 	                    </thead>
 	                    <tbody>
-	                        <th:block th:each="p:${participantdata}">
+	                        <th:block th:each="p:${participants}">
 	                        <tr>
 	                            <td th:text="${p.id}"></td>
 	                            <td th:text="${p.nama}"></td>
@@ -118,15 +118,14 @@
 		</div>		
 		<div class="pagination">
 		    <ul>
-		        <li class="previous" th:classappend="${currentPage == 0} ? 'disabled'">
-		            <a href="#" th:href="@{/viewParticipant/{currentPage}/{pageSize}(currentPage=${currentPage-1}, pageSize=${pageSize})}">Previous</a>
-		        </li>
-		        <li th:each="i : ${#numbers.sequence(0, totalPages-1)}" th:classappend="${i == currentPage} ? 'active'">
-		            <a th:href="@{/viewParticipant/{i}/{pageSize}(i=${i}, pageSize=${pageSize})}" th:text="${i + 1}">1</a>
-		        </li>
-		        <li class="next" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
-		            <a href="#" th:href="@{/viewParticipant/{currentPage}/{pageSize}(currentPage=${currentPage+1}, pageSize=${pageSize})}">Next</a>
-		        </li>
+				<li class="previous" th:classappend="${pageNo == 0} ? 'disabled'">
+				    <a href="#" th:href="${pageNo > 0} ? @{/viewParticipant(pageNo=${pageNo - 1}, pageSize=${pageSize})} : '#'">Previous</a>
+				</li>				<li th:each="i : ${#numbers.sequence(0, totalPage - 1)}" th:classappend="${i == pageNo} ? 'active'">
+				    <a href="#" th:href="@{/viewParticipant(pageNo=${i}, pageSize=${pageSize})}" th:text="${i + 1}">1</a>
+				</li>
+				<li class="next" th:classappend="${pageNo + 1 >= totalPage} ? 'disabled'">
+				    <a href="#" th:href="${pageNo + 1 < totalPage} ? @{/viewParticipant(pageNo=${pageNo + 1}, pageSize=${pageSize})} : '#'">Next</a>
+				</li>
 		    </ul>
 		</div>
 	</div>
