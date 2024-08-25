@@ -17,35 +17,29 @@ import java.util.List;
 @Service
 public class ParticipantDataService {
 	
-	@Autowired
 	private ParticipantDataRepository participantDataRepository;
-
-	@Autowired
 	private ParticipantDataDTOMapper participantDataDTOMapper;
 	
+	@Autowired
+	public ParticipantDataService(ParticipantDataRepository participantDataRepository, ParticipantDataDTOMapper participantDataDTOMapper) {
+		this.participantDataRepository = participantDataRepository;
+		this.participantDataDTOMapper = participantDataDTOMapper;
+	}
+	
 	@Transactional
-	public void updateParticipantData(
-			long id, 
-			String nama, 
-			long nim, 
-			String email, 
-			String nomor_telepon,
-			String id_line,
-			String jurusan,
-			String fakultas,
-			String angkatan,
-			long nomor_kursi) {
+	public void updateParticipantData(ParticipantDataDTO participantDataDTO) {
 		
 		participantDataRepository.updateParticipantData(
-	    		 id,
-	    		 nama,
-	    		 nim,
-	    		 email,
-	    		 nomor_telepon,
-	    		 id_line,
-	    		 jurusan,fakultas,
-	    		 angkatan,
-	    		 nomor_kursi
+	    		 participantDataDTO.getId(),
+	    		 participantDataDTO.getNama(),
+	    		 participantDataDTO.getNim(),
+	    		 participantDataDTO.getEmail(),
+	    		 participantDataDTO.getNomorTelepon(),
+	    		 participantDataDTO.getIdLine(),
+	    		 participantDataDTO.getJurusan(),
+	    		 participantDataDTO.getFakultas(),
+	    		 participantDataDTO.getAngkatan(),
+	    		 participantDataDTO.getNomorKursi()
 	    		 );
 	}
 	
@@ -63,8 +57,9 @@ public class ParticipantDataService {
 	    return participantDataDTOPage;
 	}
 	
-	public ParticipantData findOneById(long id){
+	public ParticipantDataDTO findOneById(long id){
 		return participantDataRepository.findById(id)
+				.map(participantDataDTOMapper)
 				.orElseThrow(() -> new ParticipantDataExceptions());
 	}
 }

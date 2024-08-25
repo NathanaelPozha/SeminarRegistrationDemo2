@@ -19,8 +19,12 @@ import com.example.seminar_registration_demo2.service.ParticipantDataService;
 @Controller
 public class ParticipantController {
 
-	@Autowired
 	private ParticipantDataService participantDataService;
+
+	@Autowired
+	public ParticipantController(ParticipantDataService participantDataService) {
+		this.participantDataService = participantDataService;
+	}
 	
 	@GetMapping("/viewParticipant")
 	public String viewParticipantData(Model model) {
@@ -29,7 +33,8 @@ public class ParticipantController {
 	
 	@PostMapping("/updateParticipant")
 	public String updateRegistrationData(@ModelAttribute("participantdata") ParticipantData r, @RequestParam("id") long id) {
-		participantDataService.updateParticipantData(
+		
+		ParticipantDataDTO participantDataDTO = new ParticipantDataDTO(
 				id,
 				r.getNama(),
 				r.getNim(),
@@ -40,12 +45,14 @@ public class ParticipantController {
 				r.getFakultas(),
 				r.getAngkatan(),
 				r.getNomorKursi());
+		
+		participantDataService.updateParticipantData(participantDataDTO);
 		return "redirect:/viewParticipant";
 	}	
 	
 	@GetMapping("/findOneParticipant/{id}")
 	@ResponseBody
-	public ParticipantData findOneParticipant(@PathVariable long id){
+	public ParticipantDataDTO findOneParticipant(@PathVariable long id){
 		return participantDataService.findOneById(id);
 	}
 	
