@@ -19,9 +19,22 @@
 	                <table class="table table-striped table-hover">
 	                    <thead>
 	                        <tr>
-	                            <th>#</th>
-	                            <th>Name</th>
-	                            <th>Student Id</th>
+	                            <th>
+									
+									<a th:href="@{/viewParticipant(pageNo=${pageNo}, pageSize=${pageSize}, sortField='id', sortDir=${reverseSortDir})}">
+										#
+									</a>
+								</th>
+	                            <th>
+									<a th:href="@{/viewParticipant(pageNo=${pageNo}, pageSize=${pageSize}, sortField='nama', sortDir=${reverseSortDir})}">
+										Name
+									</a>
+								</th>
+	                            <th>
+									<a th:href="@{/viewParticipant(pageNo=${pageNo}, pageSize=${pageSize}, sortField='nim', sortDir=${reverseSortDir})}">
+										Student Id
+									</a>
+								</th>
 	                            <th>Actions</th>
 	                        </tr>
 	                    </thead>
@@ -117,15 +130,16 @@
 			</form>
 		</div>		
 		<div class="pagination">
-		    <ul>
+			<ul>
 				<li class="previous" th:classappend="${pageNo == 0} ? 'disabled'">
-				    <a href="#" th:href="${pageNo > 0} ? @{/viewParticipant(pageNo=${pageNo - 1}, pageSize=${pageSize})} : '#'">Previous</a>
-				</li>				<li th:each="i : ${#numbers.sequence(0, totalPage - 1)}" th:classappend="${i == pageNo} ? 'active'">
-				    <a href="#" th:href="@{/viewParticipant(pageNo=${i}, pageSize=${pageSize})}" th:text="${i + 1}">1</a>
+					<a href="#" th:href="${pageNo > 0} ? @{/viewParticipant(pageNo=${pageNo - 1}, pageSize=${pageSize}, sortField=${sortField}, sortDir=${sortDir})} : '#'">Previous</a>
+				</li>
+				<li th:each="i : ${#numbers.sequence(0, totalPage - 1)}" th:classappend="${i == pageNo} ? 'active'">
+					<a href="#" th:href="@{/viewParticipant(pageNo=${i}, pageSize=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}" th:text="${i + 1}">1</a>
 				</li>
 				<li class="next" th:classappend="${pageNo + 1 >= totalPage} ? 'disabled'">
-				    <a href="#" th:href="${pageNo + 1 < totalPage} ? @{/viewParticipant(pageNo=${pageNo + 1}, pageSize=${pageSize})} : '#'">Next</a>
-				</li>
+					<a href="#" th:href="${pageNo + 1 < totalPage} ? @{/viewParticipant(pageNo=${pageNo + 1}, pageSize=${pageSize}, sortField=${sortField}, sortDir=${sortDir})} : '#'">Next</a>
+				</li>	
 		    </ul>
 		</div>
 	</div>

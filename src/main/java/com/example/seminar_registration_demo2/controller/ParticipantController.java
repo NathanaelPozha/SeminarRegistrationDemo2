@@ -29,7 +29,6 @@ public class ParticipantController {
 	
 	@PostMapping("/updateParticipant")
 	public String updateRegistrationData(@ModelAttribute("participantdata") ParticipantData r, @RequestParam("id") long id) {
-		
 		ParticipantDataDTO participantDataDTO = new ParticipantDataDTO(
 				id,
 				r.getNama(),
@@ -56,14 +55,19 @@ public class ParticipantController {
 	public String getParticipantData(
 			@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(value = "sortField", defaultValue = "id", required = false) String sortField,
+			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
 			Model model){
-		
-		ParticipantDataResponse content = participantDataService.getAllParticipant(pageNo, pageSize);
+		ParticipantDataResponse content = participantDataService.getAllParticipant(pageNo, pageSize, sortField, sortDir);
 		
 		model.addAttribute("participants", content.getParticipantContent());
 		model.addAttribute("pageNo", content.getPageNo());
 		model.addAttribute("pageSize", content.getPageSize());
 		model.addAttribute("totalPage", content.getTotalPages());
+		
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" :  "asc");
 		
 		return "view.html";
 	}

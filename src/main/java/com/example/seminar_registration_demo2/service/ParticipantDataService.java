@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import com.example.seminar_registration_demo2.model.ParticipantData;
@@ -51,8 +52,11 @@ public class ParticipantDataService {
 				.orElseThrow(() -> new ParticipantDataExceptions());
 	}
 	
-	public ParticipantDataResponse getAllParticipant(int pageNo, int pageSize){
-		Pageable pageable = PageRequest.of(pageNo, pageSize);
+	public ParticipantDataResponse getAllParticipant(int pageNo, int pageSize, String sortField, String sortDirection){
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+			Sort.by(sortField).descending();
+		
+		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		Page<ParticipantData> participantsData = participantDataRepository.findAll(pageable);
 		
 		List<ParticipantData> listOfParticipantData = participantsData.getContent();
