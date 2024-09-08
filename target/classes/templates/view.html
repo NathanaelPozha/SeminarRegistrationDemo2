@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration List</title>	
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+	<link rel="stylesheet" th:src="@{/css/viewstyle.css}">
+	<script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+	<script th:src="@{/js/main.js}"></script>	
+</head>
+<body>
+	<div class="well">
+	        <div class="widget stacked widget-table action-table">
+	            <div class="widget-header">
+					<h3>Seminar Registration Table</h3>
+	            </div>
+	            <div class="widget-content">
+	                <table class="table table-striped table-hover">
+	                    <thead>
+	                        <tr>
+	                            <th>
+									
+									<a th:href="@{/viewParticipant(pageNo=${pageNo}, pageSize=${pageSize}, sortField='id', sortDir=${reverseSortDir})}">
+										#
+									</a>
+								</th>
+	                            <th>
+									<a th:href="@{/viewParticipant(pageNo=${pageNo}, pageSize=${pageSize}, sortField='nama', sortDir=${reverseSortDir})}">
+										Name
+									</a>
+								</th>
+	                            <th>
+									<a th:href="@{/viewParticipant(pageNo=${pageNo}, pageSize=${pageSize}, sortField='nim', sortDir=${reverseSortDir})}">
+										Student Id
+									</a>
+								</th>
+	                            <th>Actions</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        <th:block th:each="p:${participants}">
+	                        <tr>
+	                            <td th:text="${p.id}"></td>
+	                            <td th:text="${p.nama}"></td>
+	                            <td th:text="${p.nim}"></td>
+	                            <td>
+									<a th:href="@{/findOneParticipant/{id}(id=${p.id})}" class="eBtn"><i class="icon-pencil"></i></a>
+									<a data-toggle="collapse" th:attr="data-target='#accordion_'+${p.id}"><i class="icon-chevron-down"></i></a>
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td colspan="5" class="hiddenRow">
+	                                <div class="accordion-body collapse" th:id="'accordion_'+${p.id}">
+	                                    <p><strong>Email:</strong> <span th:text="${p.email}"></span></p>
+	                                    <p><strong>Phone Number:</strong> <span th:text="${p.nomorTelepon}"></span></p>
+	                                    <p><strong>Line Id:</strong> <span th:text="${p.idLine}"></span></p>
+	                                    <p><strong>Major:</strong> <span th:text="${p.jurusan}"></span></p>
+	                                    <p><strong>Faculty:</strong> <span th:text="${p.fakultas}"></span></p>
+	                                    <p><strong>Year:</strong> <span th:text="${p.angkatan}"></span></p>
+	                                    <p><strong>Seat Number:</strong> <span th:text="${p.nomorKursi}"></span></p>
+	                                </div>
+	                            </td>
+	                        </tr>
+	                        </th:block>
+	                    </tbody>
+	                </table>
+	            </div>
+	        </div>
+			<div class="myForm">
+						<form th:action="@{/updateParticipant}" method="post">
+						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+							    <div class="modal-content">
+								    <div class="modal-header">
+								        <h5 class="modal-title" id="exampleModalLabel">Update Participant Data</h5>
+									        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									          <span aria-hidden="true">&times;</span>
+											        </button>
+												      </div>
+										      <div class="modal-body">
+												<div class="form-group">
+													<label for="id" class="form-control-label">Id:</label>
+													<input type="number" class="form-control" id="id" name="id"/>
+												</div>
+												<div class="form-group">
+													<label for="nama" class="form-control-label">Name:</label>
+													<input type="text" class="form-control" id="nama" name="nama"/>
+												</div>
+												<div class="form-group">
+													<label for="nim" class="form-control-label">Student Id:</label>
+													<input type="number" class="form-control" id="nim" name="nim"/>
+												</div>
+												<div class="form-group">
+													<label for="email" class="form-control-label">Email:</label>
+													<input type="email" class="form-control" id="email" name="email"/>
+												</div>
+												<div class="form-group">
+													<label for="nomor_telepon" class="form-control-label">Telephone Number:</label>
+													<input type="text" class="form-control" id="nomorTelepon" name="nomorTelepon"/>
+												</div>
+												<div class="form-group">
+													<label for="idLine" class="form-control-label">Line Id:</label>
+													<input type="text" class="form-control" id="idLine" name="idLine"/>
+												</div>
+												<div class="form-group">
+													<label for="jurusan" class="form-control-label">Major:</label>
+													<input type="text" class="form-control" id="jurusan" name="jurusan"/>
+												</div>
+												<div class="form-group">
+													<label for="fakultas" class="form-control-label">Faculty:</label>
+													<input type="text" class="form-control" id="fakultas" name="fakultas"/>
+												</div>
+												<div class="form-group">
+													<label for="angkatan" class="form-control-label">Class Year:</label>
+													<input type="text" class="form-control" id="angkatan" name="angkatan"/>
+												</div>
+												<div class="form-group">
+													<label for="nomor_kursi" class="form-control-label">Seat Number:</label>
+													<input type="number" class="form-control" id="nomorKursi" name="nomorKursi"/>
+												</div>
+											</div>
+											<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						        <input type="submit" class="btn btn-primary" value="save"/>
+						      </div>
+						  </div>
+					  </div>
+				</div>
+			</form>
+		</div>		
+		<div class="pagination">
+			<ul>
+				<li class="previous" th:classappend="${pageNo == 0} ? 'disabled'">
+					<a href="#" th:href="${pageNo > 0} ? @{/viewParticipant(pageNo=${pageNo - 1}, pageSize=${pageSize}, sortField=${sortField}, sortDir=${sortDir})} : '#'">Previous</a>
+				</li>
+				<li th:each="i : ${#numbers.sequence(0, totalPage - 1)}" th:classappend="${i == pageNo} ? 'active'">
+					<a href="#" th:href="@{/viewParticipant(pageNo=${i}, pageSize=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}" th:text="${i + 1}">1</a>
+				</li>
+				<li class="next" th:classappend="${pageNo + 1 >= totalPage} ? 'disabled'">
+					<a href="#" th:href="${pageNo + 1 < totalPage} ? @{/viewParticipant(pageNo=${pageNo + 1}, pageSize=${pageSize}, sortField=${sortField}, sortDir=${sortDir})} : '#'">Next</a>
+				</li>	
+		    </ul>
+		</div>
+	</div>
+</body>
+</html>
